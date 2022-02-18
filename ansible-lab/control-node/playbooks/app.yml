@@ -1,0 +1,92 @@
+---
+- name: configurar servidor de aplicação java
+  hosts: app01
+
+  user: vagrant
+  become: yes
+
+  vars:
+  - dbhost: "db01"
+  - dbname: "notes"
+  - dbusername: "notesapp"
+  - dbpassword: "devops"
+
+  - name: Adiconar usuario de app
+    user:
+      name: app
+      comment: usuario de aplicacao
+      uid: 500
+
+  - name: Intalação do Maven
+    yum:
+     name: maven
+     state: latest
+
+  - name: Instalação do Java
+    yum:
+     name: java-1.8.0-openjdk
+     state: latest
+
+  - name: Criação do diretorio de app
+    file:
+      path: /opt/notes
+      state: directory
+      owner: app
+      group: app
+
+  - name: Instalar Git Client
+    yum:
+      name: git
+      state: latest
+  
+  - name: Clone do repositorio notes
+    git:
+      repo: 'https://github.com/callicoder/spring-boot-mysql-rest-api-tutorial.git'
+      dest: /opt/notes
+      clone: yes
+      force: yes
+
+  - name: configurar arquivo de propriedades para camada de banco de dados
+    template:
+      src: application.properties
+      dest: /opt/notes/src/main/resources/application.properties
+
+  - name: Gerar pacotes da aplicação
+    command: mvn -f /opt/notes/pom.xml package
+    become_user: app
+
+  - name: Registrar versao atual do pacote
+    shell:
+      cmd: mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\['
+      chdir: /opt/notes/
+    register: app_version
+  
+  - name: Configurar serviço do systemd
+    template:
+      src: etc/systemd/system/notes.service
+      dest: /etc/systemd/system/notes.service
+    notify: reload daemon
+
+  
+  - name: Iniciar o serviço notes
+    service:
+      name: notes
+      state: restarted
+  
+  roles:
+    - configuracao-default-so
+
+  handlers:
+    - name: reload app
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: 'notes'
+    - name: reload daemon
+      systemd:
+        daemon_reexec: yes
+      
+
+
+
+  
