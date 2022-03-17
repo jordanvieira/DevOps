@@ -1,6 +1,6 @@
 #/bin/bash
 yum install epel-release -y 
-yum install wget -y
+yum install wget git -y
 
 sudo wget --no-check-certificate -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
@@ -21,3 +21,4 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 systemctl daemon-reload
 systemctl restart docker
+usermod -aG docker jenkins
