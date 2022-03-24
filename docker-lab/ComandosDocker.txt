@@ -1,0 +1,12 @@
+- docker build -t node-app .
+- docker network create devops
+- docker run --net devops --name redis-server -d redis
+- docker logs -f redis-server
+- docker run --net devops -p 8080:8081 --name node-app -d node-app
+-------------------------------------------
+#Apagar containes e images
+- docker system prune -a -f
+- docker kill [id]
+-------------------------------------------
+- docker-compose up
+- docker-compose down
