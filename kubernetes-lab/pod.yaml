@@ -1,0 +1,12 @@
+#crianção de um pod simples com o nome "meupod"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: meupod
+spec:
+  containers:
+    - name: web
+      image: fabricioveronez/web-page:blue
+      ports:
+        - containerPort: 80
