@@ -1,0 +1,27 @@
+#crianção de um Deployment simples com o nome "meupod" utilizando replicaset
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meupod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: fabricioveronez/web-page:blue
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
