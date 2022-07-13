@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgre 
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-postgre
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-postgre 
+    spec:
+      containers:
+      - name: postgre
+        image: postgres:{{ .Values.postgre.tag }}
+        ports:
+          - containerPort: 5432
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef: 
+                name: database-creds
+                key: {{ .Values.postgre.credentials.userName }}
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-creds
+                key: {{ .Values.postgre.credentials.userPwd }}
+          - name: POSTGRES_DB
+            value: {{ .Values.postgre.credentials.dbName }}

@@ -1,0 +1,6 @@
+postgre:
+  tag: 14.3
+  credentials:
+    userName: username
+    userPwd: password
+    dbName: kubenews
