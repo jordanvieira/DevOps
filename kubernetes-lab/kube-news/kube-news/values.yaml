@@ -4,3 +4,8 @@ postgre:
     userName: username
     userPwd: password
     dbName: kubenews
+
+web:
+  image: jordanvieira/kube-news
+  tag: v1
+  serviceType: NodePort

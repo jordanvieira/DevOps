@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-web
+    spec:
+      containers:
+      - name: web
+        image: {{ .Values.web.image }}:{{ .Values.web.tag }}
+        env:
+          - name: DB_DATABASE
+            value: {{ .Values.postgre.credentials.dbName }}
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: database-creds
+                key: {{ .Values.postgre.credentials.userName }}
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-creds
+                key: {{ .Values.postgre.credentials.userPwd }}
+          - name: DB_HOST
+            value: {{ .Release.Name }}-postgre
