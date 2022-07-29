@@ -1,0 +1,3 @@
+web:
+  ingress:
+    enabled: True

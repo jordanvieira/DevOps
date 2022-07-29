@@ -9,3 +9,7 @@ web:
   image: jordanvieira/kube-news
   tag: v1
   serviceType: NodePort
+  ingress:
+    enabled: False
+    className: traefik
+    hosts: ["www.172.28.81.53.sslip.io"]
