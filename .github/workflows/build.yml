@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: print repo name
-        run: echo ${{ github.repository }}
+        run: echo ${{ github.event.repository.name }}
