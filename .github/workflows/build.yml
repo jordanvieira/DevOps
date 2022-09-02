@@ -1,0 +1,9 @@
+---
+name: print repo name
+on: workflow_dispatch
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print repo name
+        run: echo ${{ github.repository }}
