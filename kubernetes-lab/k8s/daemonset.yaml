@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: app-daemon
+  namespace: sandbox
+  labels:
+    name: app-daemon
+spec:
+  selector:
+    matchLabels:
+      name: app-daemon
+  template:
+    metadata:
+      labels:
+        name: app-daemon
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: app-daemon
+        image: nginx
