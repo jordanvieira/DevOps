@@ -1,0 +1,1 @@
+k3d cluster create meu-cluster --agents 2 -p 30000:30000@loadbalancer
