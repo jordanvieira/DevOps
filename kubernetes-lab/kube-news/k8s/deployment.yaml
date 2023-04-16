@@ -106,7 +106,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: app-web
+              name: kubenews
               port:
                 number: 80
 
