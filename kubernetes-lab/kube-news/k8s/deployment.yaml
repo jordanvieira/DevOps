@@ -95,11 +95,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kubenews
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
 spec:
+  ingressClassName: traefik
   rules:
-  - host: "www.172.19.0.2.sslip.io"
+  - host: "www.172.18.0.1.sslip.io"
     http:
       paths:
         - path: /
